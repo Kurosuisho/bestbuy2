@@ -1,14 +1,27 @@
 
 import products
 import store
+from products import SecondHalfPrice, ThirdOneFree, PercentDiscount
 
-product_list = [ products.Product("MacBook Air M2", price=1450, quantity=100),
-                 products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-                 products.Product("Google Pixel 7", price=500, quantity=250),
-                 products.NonStockedProduct("Windows License", price=125),
-                 products.LimitedProduct("Shipping", price=10, quantity=250, maximum=1)
-               ]
-best_buy = store.Store(product_list)
+
+# Initialize products
+product_list = [
+    products.Product("MacBook Air M2", price=1450, quantity=100),
+    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+    products.Product("Google Pixel 7", price=500, quantity=250),
+    products.NonStockedProducts("Windows License", price=125),
+    products.LimitedProducts("Shipping", price=10, quantity=250, max_per_order=1),
+]
+
+# Create promotions
+second_half_price = SecondHalfPrice("Second Half Price!")
+third_one_free = ThirdOneFree("Third One Free!")
+thirty_percent = PercentDiscount("30% Off!", percent=30)
+
+# Assign promotions to products
+product_list[0].set_promotion(second_half_price)
+product_list[1].set_promotion(third_one_free)
+product_list[3].set_promotion(thirty_percent)
 
 
 def start(best_buy):
@@ -28,19 +41,15 @@ def start(best_buy):
         if choice == "1":
             # List all products in the store
             products = best_buy.get_all_products()
-            print("\nProducts available in store:")
-            print("----------")
-            for product in products:
-                product_name = product.name
-                product_price = product.price
-                product_quantity = product.get_quantity()
-                print(f"- {product_name}, Price: ${product_price}, Quantity: {product_quantity}")
-            print("----------")
+            print("\n------")
+            for index, product in enumerate(products, start=1):
+                print(f"{index}. {product.show()}")
+            print("------")
 
         elif choice == "2":
             # Show total quantity of products in the store
             total_quantity = best_buy.get_total_quantity()
-            print(f"\nTotal quantity of {total_quantity} products in store1")
+            print(f"\nTotal quantity of {total_quantity} products in store!")
 
         elif choice == "3":
             # Make an order
@@ -49,13 +58,13 @@ def start(best_buy):
 
             # Display available products with numbered list
             print("\n------")
-            for idx, product in enumerate(products, start=1):
+            for index, product in enumerate(products, start=1):
                 product_name = product.name
                 product_price = product.price
                 product_quantity = product.get_quantity()
-                print(f"{idx}. {product_name}, Price: ${product_price}, Quantity: {product_quantity}")
+                print(f"{index}. {product_name}, Price: ${product_price}, Quantity: {product_quantity}")
             print("------")
-            print("When you want to finish order, enter empty text.")
+            print("When you want to the finish order, enter an empty text.")
 
             while True:
                 # Prompt for product number
@@ -88,9 +97,12 @@ def start(best_buy):
                     print("Please enter a valid product number.")
 
             # Process the order and display the total price
-            total_price = best_buy.order(order)
-            print("\nTotal price for your order:")
-            print(f"${total_price:.2f}")
+            try:
+                total_price = best_buy.order(order)
+                print("\nTotal price for your order:")
+                print(f"${total_price:.2f}")
+            except Exception as e:
+                print(f"Error processing order: {e}")
 
         elif choice == "4":
             # Quit the program
@@ -100,6 +112,9 @@ def start(best_buy):
         else:
             # Handle invalid choice
             print("Invalid choice. Please enter a number between 1 and 4.")
+            
+            
 
+best_buy = store.Store(product_list)
 
 start(best_buy)
