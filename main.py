@@ -1,31 +1,50 @@
-
 import products
 import store
 from products import SecondHalfPrice, ThirdOneFree, PercentDiscount
 
+def main():
+    """Main function to initialize the store and start the application.
 
-# Initialize products
-product_list = [
-    products.Product("MacBook Air M2", price=1450, quantity=100),
-    products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
-    products.Product("Google Pixel 7", price=500, quantity=250),
-    products.NonStockedProducts("Windows License", price=125),
-    products.LimitedProducts("Shipping", price=10, quantity=250, max_per_order=1),
-]
+    This function sets up a list of predefined products, initializes the store with these products, 
+    and starts the user interaction loop.
 
-# Create promotions
-second_half_price = SecondHalfPrice("Second Half Price!")
-third_one_free = ThirdOneFree("Third One Free!")
-thirty_percent = PercentDiscount("30% Off!", percent=30)
+    Returns:
+        None
+    """
+    # Create product list
+    product_list = [
+        products.Product("MacBook Air M2", price=1450, quantity=100),
+        products.Product("Bose QuietComfort Earbuds", price=250, quantity=500),
+        products.Product("Google Pixel 7", price=500, quantity=250),
+        products.NonStockedProducts("Windows License", price=125),
+        products.LimitedProducts("Shipping", price=10, quantity=250, max_per_order=1),
+    ]
 
-# Assign promotions to products
-product_list[0].set_promotion(second_half_price)
-product_list[1].set_promotion(third_one_free)
-product_list[3].set_promotion(thirty_percent)
+    # Create promotions
+    second_half_price = SecondHalfPrice("Second Half Price!")
+    third_one_free = ThirdOneFree("Third One Free!")
+    thirty_percent = PercentDiscount("30% Off!", percent=30)
 
+    # Assign promotions to products
+    product_list[0].set_promotion(second_half_price)
+    product_list[1].set_promotion(third_one_free)
+    product_list[3].set_promotion(thirty_percent)
+
+    # Create the store
+    best_buy = store.Store(product_list)
+
+    # Start the store interaction loop
+    start(best_buy)
 
 def start(best_buy):
-    """Displays a menu for the user and performs actions based on the selection."""
+    """Displays a menu for the user and executes actions based on their selection.
+
+    Args:
+        best_buy (Store): The store object containing product inventory and operations.
+
+    Returns:
+        None
+    """
     while True:
         # Display the menu options
         print("\nStore Menu")
@@ -112,9 +131,6 @@ def start(best_buy):
         else:
             # Handle invalid choice
             print("Invalid choice. Please enter a number between 1 and 4.")
-            
-            
 
-best_buy = store.Store(product_list)
-
-start(best_buy)
+if __name__ == "__main__":
+    main()

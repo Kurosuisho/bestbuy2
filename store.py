@@ -36,10 +36,16 @@ class Store:
 
 
     def order(self, shopping_list):
-        """
-        Processes an order based on a list of (Product, quantity) tuples
-        Buys the products and returns the total price of the order
-        Handles exceptions if there are issues with purchasing
+        """Processes an order for multiple products.
+
+        Args:
+            shopping_list (list[tuple[Product, float]]): A list of tuples, each containing a Product instance and the quantity to purchase.
+
+        Returns:
+            float: The total price for all successfully purchased items.
+
+        Logs:
+            Prints error messages for any product purchase issues (e.g., insufficient stock or inactive product).
         """
         total_price = 0.0
         for product, quantity in shopping_list:

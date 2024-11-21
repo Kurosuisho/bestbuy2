@@ -42,11 +42,16 @@ class Product:
         return f"{self.name}, Price: ${self.price}, Quantity: {int(self.quantity)}, Promotion: {promo}"
 
     def buy(self, quantity):
-        """
-        Buys a specified quantity of the product.
-        Returns the total price for the purchase.
-        Raises an exception if the quantity is invalid or insufficient.
-        """
+        """Initializes a Product instance.
+
+                Args:
+                    name (str): The name of the product.
+                    price (float): The price of the product. Must be non-negative.
+                    quantity (float): The initial quantity of the product. Must be non-negative.
+
+                Raises:
+                  ValueError: If name is empty, or if price or quantity is negative.
+             """
         if not self.active or quantity <= 0 or quantity > self.quantity:
             raise ValueError("Invalid purchase.")
         
@@ -133,21 +138,3 @@ class LimitedProducts(Product):
         """Returns a f-string describing limited products."""
         promo = self.promotion.name if self.promotion else "None"
         return f"{self.name}, Price: ${self.price}, Limited to {self.max_per_order} per order!, Promotion: {promo}"
-
-
-#def main():
- #   bose = Product("Bose QuietComfort Earbuds", price=250, quantity=500)
-  #  mac = Product("MacBook Air M2", price=1450, quantity=100)
-#
- #   print(bose.buy(50))
-  #  print(mac.buy(100))
-   # print(mac.is_active())
-#
- #   bose.show()
-  #  mac.show()
-#
- #   bose.set_quantity(1000)
-  #  bose.show()
-   # 
-#if __name__ == "__main__":
- #   main()
